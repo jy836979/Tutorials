@@ -5,11 +5,11 @@
 
 ```javascript
 function makeFunc() {
-	var name = "Mozilla";	
-	function displayName() { // 내부 함수이며,클로저
-		alert(name);	// 부모 함수에서 선언된 변수를 사용
-	}
-	return displayName;
+    var name = "Mozilla";	
+    function displayName() { // 내부 함수이며,클로저
+        alert(name);	// 부모 함수에서 선언된 변수를 사용
+    }
+    return displayName;
 }
 
 var myFunc = makeFunc();
@@ -114,7 +114,7 @@ function setupHelp() {
 
     for (var i = 0; i < helpText.length; i++) {
         (function() {
-			var item = helpText[i];
+            var item = helpText[i];
             document.getElementById(item.id).onfocus = function() {
 				showHelp(item.help);
             };
