@@ -1,6 +1,7 @@
 #### 클로저
 
-클로저는 내부함수가 외부함수의 맥락(context)에 접근할 수 있는 것을 가리킨다. 자바스크립트에서는 중첩된 함수들의 외부 유효 범위에서 선언된 변수들에 접근할 권할을 가진다.
+클로저는 내부함수가 외부함수의 맥락(context)에 접근할 수 있는 것을 가리킨다.
+자바스크립트에서는 중첩된 함수들의 외부 유효 범위에서 선언된 변수들에 접근할 권할을 가진다.
 
 ```javascript
 function makeFunc() {
@@ -53,13 +54,15 @@ function setupHelp() {
 setupHelp();
 ```
 
-[결과보기](https://github.com/jy836979/Tutorials/blob/master/src/main/webapp/javascript/closures/closures-general-miss-solution-1.html)
+[결과보기](https://jy836979.github.io/Tutorials/src/main/webapp/javascript/closures/closures-general-miss-solution-1.html)
 
 setupHelp 함수 내부를 보면 루프를 돌면서 각 입력 필드 ID에 해당하는 엘리먼트의 onfocus 이벤트에 관련된 도움말을 보여주는 메소드를 연결한다. 
 
 이 코드를 사용하면 제대로 작동하지 않는 것을 알게 된다. 어떤 필드에 포커스를 주더라도 나이에 관한 도움말이 표시된다.
 
-onfocus 이벤트에 연결된 함수가 클로저이기 때문이다. 이 클로저는 setupHelp 함수가 실행될 때 생성된 내부함수로 외부함수의 지역변수를 참조한다. 루프에서 세 개의 클로저가 만들어졌지만 각 클로저는 값이 변하는 지역변수 item을 공유한다. onfocus 콜백이 실행될 때  콜백 환경에서 item은 helpText 리스트의 마지막 요소를 가리키고 있을 것이다.
+onfocus 이벤트에 연결된 함수가 클로저이기 때문이다. 이 클로저는 setupHelp 함수가 실행될 때 생성된 내부함수로 외부함수의 지역변수를 참조한다. 
+루프에서 세 개의 클로저가 만들어졌지만 각 클로저는 값이 변하는 지역변수 item을 공유한다. 
+onfocus 콜백이 실행될 때  콜백 환경에서 item은 helpText 리스트의 마지막 요소를 가리키고 있을 것이다.
 
 이 경우 한 가지 해결책은 더 많은 클로저를 사용하는 것이다.
 
@@ -90,7 +93,8 @@ function setupHelp() {
 setupHelp();
 ```
 
-모두 단일 환경을 공유하는 콜백대신, makeHelpCallback 함수는 각각의 콜백에 새로운 어휘적 환경을 생성한다. 여기서 help는 helpText 배열의 해당 문자열을 나타낸다.
+모두 단일 환경을 공유하는 콜백대신, makeHelpCallback 함수는 각각의 콜백에 새로운 어휘적 환경을 생성한다. 
+여기서 help는 helpText 배열의 해당 문자열을 나타낸다.
 
 함수 팩토리를 사용하지 않고 익명 클로저를 사용하여 위 코드를 장성 할 수 있다.
 
