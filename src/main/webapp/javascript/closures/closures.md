@@ -54,7 +54,7 @@ function setupHelp() {
 setupHelp();
 ```
 
-[결과보기](https://jy836979.github.io/Tutorials/src/main/webapp/javascript/closures/closures-general-miss-solution-1.html)
+[결과보기](https://jy836979.github.io/Tutorials/src/main/webapp/javascript/closures/closures-general-miss.html)
 
 setupHelp 함수 내부를 보면 루프를 돌면서 각 입력 필드 ID에 해당하는 엘리먼트의 onfocus 이벤트에 관련된 도움말을 보여주는 메소드를 연결한다. 
 
@@ -92,6 +92,8 @@ function setupHelp() {
 
 setupHelp();
 ```
+
+[결과보기](https://jy836979.github.io/Tutorials/src/main/webapp/javascript/closures/closures-general-miss-solution-1.html)
 
 모두 단일 환경을 공유하는 콜백대신, makeHelpCallback 함수는 각각의 콜백에 새로운 어휘적 환경을 생성한다. 
 여기서 help는 helpText 배열의 해당 문자열을 나타낸다.
@@ -148,6 +150,8 @@ function setupHelp() {
     }
 }
 ```
+
+[결과보기](https://jy836979.github.io/Tutorials/src/main/webapp/javascript/closures/closures-general-miss-solution-2.html)
 
 위의 경우 var 대신 let을 사용하여 모든 클로가 블록 범위 변수를 바인딩 할 것이므로 추가적인 클로저를 사용하지 않아도 완벽하게 동작할 것이다.
 
