@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>성능 관련 고려 사항</title>
+</head>
+<body>
+    <script type="text/javascript">
+        /**
+         * 제목: 성능 관련 고려 사항
+         * 내용: 특정 작업에 클로저가 필요하지 않는데 다른 함수 내에서 함수를 불필요하게 작성하는 것은 현명하지 않다.
+         *  이것은 처리 속도와 메모리 소비 측면에서 스크립트 성능에 부정적인 영향을 미칠 것이다.
+         *
+         *  예를 들어, 새로운 객체/클래스를 생성 할 때, 메소드는 일반적으로 객체 생성자에 정의되기보다는 객체의
+         *  프로토 타입에 연결되어야 한다. 그 이유는 생성자가 호출 될 때마다 메서드가 다시 할당되기 때문이다.
+         *  (즉, 모든 개체가 생성 될 때마다)
+         *  참고: https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Closures#성능_관련_고려_사항
+         * */
+        function MyObject_1(name, message) {
+            this.name = name.toString();
+            this.message = message.toString();
+            this.getName = function() {
+                return this.name;
+            };
+            this.getMessage = function() {
+                return this.message;
+            };
+        }
+
+        function MyObject_2(name, message) {
+            this.name = name.toString();
+            this.message = message.toString();
+        }
+        MyObject_2.prototype = {
+            getName: function() {
+                return this.name;
+            },
+            getMessage: function() {
+                return this.message;
+            }
+        };
+
+        function MyObject_3(name, message) {
+            this.name = name.toString();
+            this.message = message.toString();
+        }
+        MyObject_3.prototype.getName = function() {
+            return this.name;
+        };
+        MyObject_3.prototype.getMessage = function() {
+            return this.message;
+        };
+
+        function MyObject_4(name, message) {
+            this.name = name.toString();
+            this.message = message.toString();
+        }
+        (function() {
+            this.getName = function() {
+                return this.name;
+            };
+            this.getMessage = function() {
+                return this.message;
+            };
+        }).call(MyObject_4.prototype);
+    </script>
+</body>
+</html>

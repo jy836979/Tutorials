@@ -17,6 +17,8 @@ myFunc();
 
 
 
+
+
 #### 일반적인 실수
 
 루프 안에서 클로저가 생성되었을 때 다음과 같은 일반적인 문제가 발생한다. 다음 예제를 보자.
@@ -156,11 +158,79 @@ function setupHelp() {
 
 
 
+
+
 #### 성능 관련 고려 사항
 
+특정 작업에 클로저가 필요하지 않는데 다른 함수 내에서 함수를 불필요하게 작성하는 것은 현명하지 않다. 이것은 처리 속도와 소비 측면에서 스크립트 성능에 부정적인 영향을 미칠 것이다.
 
+예를 들어, 새로운 객체/클래스를 생성 할 때, 메소드는 일반적으로 객체 생성자에 정의되기보다는 객체의 프로토 타입에 연결되어야 한다. 그 이유는 생성자가 호출 될 때마다 메서드가 다시 할당되기 때문이다. (즉, 모든 개체가 생성 될 때마다)
 
+비실용적이지만 시범적인 다음 예를 고려하라:
 
+```javascript
+function MyObject(name, message) {
+    this.name = name.toString();
+    this.message = message.toString();
+    this.getName = function() {
+        
+    };
+    this.getMessage = function() {
+        
+    }
+}
+```
+
+앞의 코드는 클로저의 이점을 이용하지 않음으 다음과 같이 다시 쓸 수 있다.
+
+```javascript
+function MyObject(name, message) {
+    this.name = name.toString();
+    this.message = message.toString();
+}
+MyObject.prototype = {
+    getName: function() {
+        return this.name;
+    },
+    getMessage: function() {
+        return this.message;
+    }
+};
+```
+
+그러나 프로토타입을 다시 정의하는 것은 권장되지 않음으로 기존 프로토타입에 추가하는 다음 예제가 더 좋다.
+
+```javascript
+function MyObject(name, message) {
+    this.name = name.toString();
+    this.message = message.toString();
+}
+MyObject.prototype.getName = function() {
+    return this.name;
+};
+MyObject.prototype.getMessage = function() {
+    return this.message;
+};
+```
+
+위의 코드와 같은 결과를 가진 더 깨긋한 방법으로 작성할 수도 있다:
+
+```javascript
+function MyObject(name, message) {
+    this.name = name.toString();
+    this.message = message.toString();
+}
+(function() {
+    this.getName = function() {
+        return this.name;
+    };
+    this.getMessage = function() {
+		return this.message;  
+    };
+}).call(MyObject.prototype);
+```
+
+앞의 두 가지 예제에서 상속된 프로토타입은 모든 객체에서 공유될 수 있으며 메소드 정의는 모든 객체 생성시 발생할 필요가 없다.
 
 #### 참고
 
